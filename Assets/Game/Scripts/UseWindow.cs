@@ -8,20 +8,15 @@ using UnityEngine.UI;
 public class UseWindow : MonoBehaviour, IPointerClickHandler
 {
     public Button closeButton;
-    public Button okButton;
 
     public RectTransform itemsGroup;
-
-    public System.Action actionWindowClicked;
-    public System.Action actionEnterNextScreen;
-
+    
     public List<InventoryItem> inventoryItems = new List<InventoryItem>();
 
     // Use this for initialization
     void Start()
     {
         closeButton.onClick.AddListener(OnCloseButtonClicked);
-        okButton.onClick.AddListener(OnOKButtonClicked);
     }
 
     // Update is called once per frame
@@ -34,12 +29,7 @@ public class UseWindow : MonoBehaviour, IPointerClickHandler
     {
         ShowWindow(false, true);
     }
-
-    private void OnOKButtonClicked()
-    {
-        actionEnterNextScreen.RaiseEvent();
-    }
-
+    
     public void ShowWindow(bool show, bool animate)
     {
         gameObject.SetActive(true);
@@ -57,21 +47,10 @@ public class UseWindow : MonoBehaviour, IPointerClickHandler
         MainController.InventorySystem.ShowPanel(show, true);
 
         MainController.Instance.IsPopupWindowShowing = show;
-
-        IsShowing = show;
     }
-
-    public bool IsShowing { get; set; }
-
+    
     public void OnPointerClick(PointerEventData eventData)
     {
-        actionWindowClicked.RaiseEvent();
-    }
-
-    public void PlaceInventoryItem(InventoryItem item)
-    {
-        item.transform.SetParent(itemsGroup);
-
-        item.location = InventoryItem.Location.UseWindow;
+        ShowWindow(false, true);
     }
 }

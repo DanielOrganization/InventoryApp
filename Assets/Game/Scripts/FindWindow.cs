@@ -8,7 +8,8 @@ using DG.Tweening;
 
 public class FindWindow : MonoBehaviour, IPointerClickHandler
 {
-    public Button closeButton;
+    [SerializeField]
+    private Button closeButton;
 
     // Use this for initialization
     void Start()

@@ -16,6 +16,9 @@ public class InventorySystem : MonoBehaviour, IPointerEnterHandler, IPointerExit
     [SerializeField]
     private GameObject hintAreaPrefab;
 
+    [SerializeField]
+    private Transform collectPoint;
+
     private List<InventoryItem> inventoryItems = new List<InventoryItem>();
 
     private bool needShow = false;
@@ -38,11 +41,16 @@ public class InventorySystem : MonoBehaviour, IPointerEnterHandler, IPointerExit
 
     public void AddInventoryItem(InventoryItem item)
     {
-        item.transform.SetParent(itemParent);
+        item.transform.SetParent(collectPoint);
+        item.transform.DOScale(0.1f, 0.5f).SetEase(Ease.InCubic);
+        item.transform.DOLocalMove(Vector3.zero, 0.5f).OnComplete(delegate()
+        {
+            item.transform.localScale = Vector3.one;
+            item.transform.SetParent(itemParent);
+            item.ItemLocation = InventoryItem.Location.InventorySystem;
+            inventoryItems.Add(item);
+        });
 
-        item.location = InventoryItem.Location.InventorySystem;
-
-        inventoryItems.Add(item);
     }
 
     public void RemoveInventoryItem(InventoryItem item)
@@ -52,7 +60,7 @@ public class InventorySystem : MonoBehaviour, IPointerEnterHandler, IPointerExit
 
     public void ShowPanel(bool show, bool force)
     {
-        // show Inventory Panel always
+        // show Inventory Panel always, so this function will do nothing
 //         if(force)
 //             needShow = show;
 // 
@@ -81,6 +89,7 @@ public class InventorySystem : MonoBehaviour, IPointerEnterHandler, IPointerExit
     public void ShowHintAreaInScene(Transform hintAreaParent, Vector3 pos)
     {
         HintArea hintArea = GlobalTools.AddChild<HintArea>(hintAreaParent.gameObject, hintAreaPrefab);
-        hintArea.transform.localPosition = pos;
+
+        hintArea.transform.localPosition = hintAreaParent.InverseTransformPoint(pos);
     }
 }

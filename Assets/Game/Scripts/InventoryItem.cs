@@ -10,16 +10,16 @@ public class InventoryItem : MonoBehaviour
 
     [SerializeField]
     private ItemType itemType;
+    
+    private Location location = Location.FindWindow;
 
-    public System.Action<InventoryItem> actionItemClicked;
-
-    public Location location = Location.FindWindow;
+    private DragMe dragMe;
 
     public enum Location
     {
         FindWindow,
         InventorySystem,
-        UseWindow,
+        Used,
     }
 
     // Use this for initialization
@@ -31,6 +31,10 @@ public class InventoryItem : MonoBehaviour
         ItemData data = MainController.Instance.GetItemData(itemType);
         targetImage.sprite = data.sprite;
         targetImage.SetNativeSize();
+
+        dragMe = transform.EnsureComponent<DragMe>();
+        dragMe.actionDragFinished += OnDropFinished;
+        dragMe.AllowDrag = false;
     }
 
     // Update is called once per frame
@@ -57,8 +61,41 @@ public class InventoryItem : MonoBehaviour
     
     private void OnItemClicked()
     {
-        actionItemClicked.RaiseEvent(this);
+        if(this.ItemLocation == Location.FindWindow)
+        {
+            MainController.InventorySystem.AddInventoryItem(this);
+        }
     }
 
+    public Location ItemLocation
+    {
+        get
+        {
+            return location;
+        }
+        set
+        {
+            location = value;
+
+            if (location == Location.InventorySystem)
+            {
+                dragMe.AllowDrag = true;
+            }
+            else
+            {
+                dragMe.AllowDrag = false;
+            }
+        }
+    }
+
+    private void OnDropFinished(bool success)
+    {
+        if(success)
+        {
+            MainController.InventorySystem.RemoveInventoryItem(this);
+
+            this.ItemLocation = InventoryItem.Location.Used;
+        }
+    }
 }
 
