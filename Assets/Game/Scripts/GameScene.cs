@@ -63,4 +63,42 @@ public class GameScene : MonoBehaviour
 
         return null;
     }
+
+    public void ShowSceneObject(bool show)
+    {
+
+
+        if(show)
+        {
+            MainController.InventorySystem.actionHintClicked += OnInventoryHintClicked;
+        }
+        else
+        {
+            // Destory hit area in this scene first
+            HintArea hintArea = GetComponentInChildren<HintArea>();
+            if(hintArea != null)
+            {
+                Destroy(hintArea.gameObject);
+            }
+
+            MainController.InventorySystem.actionHintClicked -= OnInventoryHintClicked;
+        }
+
+        gameObject.SetActive(show);
+    }
+
+    private void OnInventoryHintClicked()
+    {
+        print("OnInventoryHintClicked");
+
+        HotspotFind[] hotspotFinds = GetComponentsInChildren<HotspotFind>();
+        if(hotspotFinds.Length > 0)
+        {
+            int index = Random.Range(0, hotspotFinds.Length);
+            
+            Vector3 pos = transform.InverseTransformPoint(hotspotFinds[index].transform.position);
+
+            MainController.InventorySystem.ShowHintAreaInScene(transform, pos);
+        }
+    }
 }

@@ -71,7 +71,7 @@ public class MainController : Singleton<MainController>
 
             if (m_CurrentSceneData.sceneObject != null)
             {
-                m_CurrentSceneData.sceneObject.gameObject.SetActive(false);
+                m_CurrentSceneData.sceneObject.ShowSceneObject(false);
             }
         }
 
@@ -86,7 +86,7 @@ public class MainController : Singleton<MainController>
         {
             sceneData.sceneObject = GlobalTools.AddChild<GameScene>(sceneParent, sceneData.scenePrefab);
         }
-        sceneData.sceneObject.gameObject.SetActive(true);
+        sceneData.sceneObject.ShowSceneObject(true);
         m_CurrentSceneData = sceneData;
     }
 

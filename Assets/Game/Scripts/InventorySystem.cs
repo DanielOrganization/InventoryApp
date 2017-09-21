@@ -3,21 +3,31 @@ using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 using UnityEngine.EventSystems;
-using System;
+using UnityEngine.UI;
 
 public class InventorySystem : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     [SerializeField]
     private Transform itemParent;
 
+    [SerializeField]
+    private Button hintButton;
+
+    [SerializeField]
+    private GameObject hintAreaPrefab;
+
     private List<InventoryItem> inventoryItems = new List<InventoryItem>();
 
     private bool needShow = false;
+
+    public System.Action actionHintClicked;
 
     // Use this for initialization
     void Start()
     {
         ShowPanel(false, true);
+
+        hintButton.onClick.AddListener(OnHintButtonClicked);
     }
 
     // Update is called once per frame
@@ -42,11 +52,12 @@ public class InventorySystem : MonoBehaviour, IPointerEnterHandler, IPointerExit
 
     public void ShowPanel(bool show, bool force)
     {
-        if(force)
-            needShow = show;
-
-        float endValue = show ? 0 : -80;
-        gameObject.GetComponent<RectTransform>().DOAnchorPosY(endValue, 0.3f);
+        // show Inventory Panel always
+//         if(force)
+//             needShow = show;
+// 
+//         float endValue = show ? 0 : -80;
+//         gameObject.GetComponent<RectTransform>().DOAnchorPosY(endValue, 0.3f);
     }
 
     public void OnPointerEnter(PointerEventData eventData)
@@ -60,5 +71,16 @@ public class InventorySystem : MonoBehaviour, IPointerEnterHandler, IPointerExit
             return;
 
         ShowPanel(false, false);
+    }
+
+    public void OnHintButtonClicked()
+    {
+        actionHintClicked.RaiseEvent();
+    }
+
+    public void ShowHintAreaInScene(Transform hintAreaParent, Vector3 pos)
+    {
+        HintArea hintArea = GlobalTools.AddChild<HintArea>(hintAreaParent.gameObject, hintAreaPrefab);
+        hintArea.transform.localPosition = pos;
     }
 }
