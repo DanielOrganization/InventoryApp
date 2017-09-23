@@ -41,16 +41,10 @@ public class InventorySystem : MonoBehaviour, IPointerEnterHandler, IPointerExit
 
     public void AddInventoryItem(InventoryItem item)
     {
-        item.transform.SetParent(collectPoint);
-        item.transform.DOScale(0.1f, 0.5f).SetEase(Ease.InCubic);
-        item.transform.DOLocalMove(Vector3.zero, 0.5f).OnComplete(delegate()
-        {
-            item.transform.localScale = Vector3.one;
-            item.transform.SetParent(itemParent);
-            item.ItemLocation = InventoryItem.Location.InventorySystem;
-            inventoryItems.Add(item);
-        });
-
+        item.transform.localScale = Vector3.one;
+        item.transform.SetParent(itemParent);
+        item.ItemLocation = InventoryItem.Location.InventorySystem;
+        inventoryItems.Add(item);
     }
 
     public void RemoveInventoryItem(InventoryItem item)

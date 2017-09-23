@@ -34,7 +34,7 @@ public class InventoryItem : MonoBehaviour
 
         dragMe = transform.EnsureComponent<DragMe>();
         dragMe.actionDragFinished += OnDropFinished;
-        dragMe.AllowDrag = false;
+        dragMe.enabled = false;
     }
 
     // Update is called once per frame
@@ -79,11 +79,11 @@ public class InventoryItem : MonoBehaviour
 
             if (location == Location.InventorySystem)
             {
-                dragMe.AllowDrag = true;
+                dragMe.enabled = true;
             }
             else
             {
-                dragMe.AllowDrag = false;
+                dragMe.enabled = false;
             }
         }
     }

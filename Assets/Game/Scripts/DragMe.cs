@@ -36,20 +36,15 @@ public class DragMe : MonoBehaviour
             transform.localPosition = new Vector3(localPos.x, localPos.y, 0);
         }
     }
-
-    public bool AllowDrag { get; set; }
     
     private void OnItemClicked()
     {
-        if(AllowDrag)
+        if (!m_Dragging)
         {
-            if (!m_Dragging)
-            {
-                parentBeforeDrag = transform.parent;
-                transform.SetParent(draggingParent);
+            parentBeforeDrag = transform.parent;
+            transform.SetParent(draggingParent);
 
-                StartDrag();
-            }
+            StartDrag();
         }
     }
 

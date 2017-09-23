@@ -6,17 +6,17 @@ using UnityEngine.UI;
 
 public class ScreenBlock : Singleton<ScreenBlock>, IPointerClickHandler
 {
-    private CanvasGroup canvasGroup;
-
     public System.Action<PointerEventData> actionBlockClicked;
+
+    private Transform m_OriginParent;
 
     // Use this for initialization
     void Start()
     {
-        canvasGroup = GetComponent<CanvasGroup>();
-
         GetComponent<Image>().enabled = true;
         EnableBlock(false);
+
+        m_OriginParent = transform.parent;
     }
 
     // Update is called once per frame
@@ -27,8 +27,15 @@ public class ScreenBlock : Singleton<ScreenBlock>, IPointerClickHandler
 
     public void EnableBlock(bool enable)
     {
+        CanvasGroup canvasGroup = GetComponent<CanvasGroup>();
+
         canvasGroup.blocksRaycasts = enable;
         canvasGroup.alpha = enable ? 1.0f : 0.0f;
+    }
+
+    public void RestoreParent()
+    {
+        transform.SetParent(m_OriginParent);
     }
 
     public void OnPointerClick(PointerEventData eventData)
