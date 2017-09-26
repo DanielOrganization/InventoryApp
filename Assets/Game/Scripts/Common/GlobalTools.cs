@@ -163,4 +163,11 @@ public static class GlobalTools
 
         return (PlayerPrefs.GetInt(key) == 1) ? true : false;
     }
+
+    public static void SetRectTransformAnchoredPositionX(this RectTransform trans, float x)
+    {
+        Vector2 pos = trans.anchoredPosition;
+        pos.x = x;
+        trans.anchoredPosition = pos;
+    }
 }

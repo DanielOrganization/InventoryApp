@@ -10,7 +10,10 @@ public class InventoryItem : MonoBehaviour
 
     [SerializeField]
     private ItemType itemType;
-    
+
+    [SerializeField]
+    private Text itemState;
+
     private Location location = Location.FindWindow;
 
     private DragMe dragMe;
@@ -35,6 +38,8 @@ public class InventoryItem : MonoBehaviour
         dragMe = transform.EnsureComponent<DragMe>();
         dragMe.actionDragFinished += OnDropFinished;
         dragMe.enabled = false;
+
+        this.ItemLocation = Location.FindWindow;
     }
 
     // Update is called once per frame
@@ -85,6 +90,23 @@ public class InventoryItem : MonoBehaviour
             {
                 dragMe.enabled = false;
             }
+
+            string state = "";
+            switch(location)
+            {
+                case Location.FindWindow:
+                    state = "Unfound";
+                    break;
+
+                case Location.InventorySystem:
+                    state = "Found&Unused";
+                    break;
+
+                case Location.Used:
+                    state = "Used";
+                    break;
+            }
+            itemState.text = state;
         }
     }
 

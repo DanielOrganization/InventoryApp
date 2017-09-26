@@ -44,7 +44,10 @@ public class UseWindow : MonoBehaviour, IPointerClickHandler
             transform.localScale = Vector3.one * endValue;
         }
 
-        MainController.InventorySystem.ShowPanel(show, true);
+        if (show)
+        {
+            MainController.InventorySystem.ShowPanel(show, true);
+        }
 
         MainController.Instance.IsPopupWindowShowing = show;
     }

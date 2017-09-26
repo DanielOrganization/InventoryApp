@@ -22,12 +22,7 @@ public class GameScene : MonoBehaviour
 
     private void Init()
     {
-        InventoryItem[] items = GetComponentsInChildren<InventoryItem>(true);
-        foreach (var item in items)
-        {
-            DragMe dragMe = item.gameObject.EnsureComponent<DragMe>();
-            dragMe.draggingParent = this.transform;
-        }
+
     }
     
     public void ShowSceneObject(bool show)
@@ -55,9 +50,14 @@ public class GameScene : MonoBehaviour
         HotspotFind[] hotspotFinds = GetComponentsInChildren<HotspotFind>();
         if(hotspotFinds.Length > 0)
         {
-            int index = Random.Range(0, hotspotFinds.Length);
-            
-            MainController.InventorySystem.ShowHintAreaInScene(transform, hotspotFinds[index].transform.position);
+            foreach(var hotspotFind in hotspotFinds)
+            {
+                if(hotspotFind.findWindow.GetComponentsInChildren<InventoryItem>().Length > 0)
+                {
+                    MainController.InventorySystem.ShowHintAreaInScene(transform, hotspotFind.transform.position);
+                    break;
+                }
+            }
         }
     }
 }

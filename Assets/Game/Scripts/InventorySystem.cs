@@ -8,7 +8,12 @@ using UnityEngine.UI;
 public class InventorySystem : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     [SerializeField]
-    private Transform itemParent;
+    private RectTransform itemParent;
+
+    [SerializeField]
+    private RectTransform scrollView;
+    [SerializeField]
+    private RectTransform scrollViewContent;
 
     [SerializeField]
     private Button hintButton;
@@ -19,18 +24,43 @@ public class InventorySystem : MonoBehaviour, IPointerEnterHandler, IPointerExit
     [SerializeField]
     private Transform collectPoint;
 
+    [SerializeField]
+    private Button toogleButton;
+
+    [SerializeField]
+    private Button leftPageButton;
+
+    [SerializeField]
+    private Button rightPageButton;
+
     private List<InventoryItem> inventoryItems = new List<InventoryItem>();
 
     private bool needShow = false;
 
+    private bool m_IsShowing = false;
+
     public System.Action actionHintClicked;
+
+    private int m_PageIndex = 0;
 
     // Use this for initialization
     void Start()
     {
-        ShowPanel(false, true);
+        ShowPanel(true, true);
 
         hintButton.onClick.AddListener(OnHintButtonClicked);
+
+        toogleButton.onClick.AddListener(OnToggleButtonClicked);
+
+        leftPageButton.onClick.AddListener(delegate ()
+        {
+            ScrollPage(-1);
+        });
+
+        rightPageButton.onClick.AddListener(delegate ()
+        {
+            ScrollPage(1);
+        });
     }
 
     // Update is called once per frame
@@ -54,25 +84,26 @@ public class InventorySystem : MonoBehaviour, IPointerEnterHandler, IPointerExit
 
     public void ShowPanel(bool show, bool force)
     {
-        // show Inventory Panel always, so this function will do nothing
-//         if(force)
-//             needShow = show;
-// 
-//         float endValue = show ? 0 : -80;
-//         gameObject.GetComponent<RectTransform>().DOAnchorPosY(endValue, 0.3f);
+        if (force)
+            needShow = show;
+
+        m_IsShowing = show;
+
+        float endValue = show ? 0 : -80;
+        gameObject.GetComponent<RectTransform>().DOAnchorPosY(endValue, 0.3f);
     }
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        ShowPanel(true, false);
+        //    ShowPanel(true, false);
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        if (needShow)
-            return;
-
-        ShowPanel(false, false);
+        //         if (needShow)
+        //             return;
+        // 
+        //         ShowPanel(false, false);
     }
 
     public void OnHintButtonClicked()
@@ -80,10 +111,27 @@ public class InventorySystem : MonoBehaviour, IPointerEnterHandler, IPointerExit
         actionHintClicked.RaiseEvent();
     }
 
+    public void OnToggleButtonClicked()
+    {
+        ShowPanel(!m_IsShowing, false);
+    }
+
     public void ShowHintAreaInScene(Transform hintAreaParent, Vector3 pos)
     {
         HintArea hintArea = GlobalTools.AddChild<HintArea>(hintAreaParent.gameObject, hintAreaPrefab);
 
         hintArea.transform.localPosition = hintAreaParent.InverseTransformPoint(pos);
+    }
+
+    private void ScrollPage(int offset)
+    {
+        int pageCount = Mathf.CeilToInt(scrollViewContent.sizeDelta.x / scrollView.sizeDelta.x);
+        if (pageCount == 0)
+            return;
+
+        m_PageIndex = Mathf.Clamp(m_PageIndex + offset, 0, pageCount - 1);
+
+        float posX = -scrollView.sizeDelta.x * m_PageIndex;
+        scrollViewContent.SetRectTransformAnchoredPositionX(posX);
     }
 }

@@ -24,6 +24,8 @@ public class DragMe : MonoBehaviour
         button.onClick.AddListener(OnItemClicked);
 
         canvasGroup = transform.EnsureComponent<CanvasGroup>();
+
+        draggingParent = ScreenBlock.Instance.transform;
     }
 
     // Update is called once per frame
@@ -58,24 +60,24 @@ public class DragMe : MonoBehaviour
         DropMe dropMe = null;
         foreach(var result in results)
         {
-            if(result.gameObject.GetComponent<DropMe>() != null)
+            dropMe = result.gameObject.GetComponent<DropMe>();
+            if (dropMe != null)
             {
-                dropMe = result.gameObject.GetComponent<DropMe>();
                 break;
             }
         }
 
-        if(dropMe == null)
-        {
-            transform.SetParent(parentBeforeDrag);
-
-            actionDragFinished.RaiseEvent(false);
-        }
-        else
+        if(dropMe != null && dropMe.AllowDropped(this))
         {
             transform.SetParent(dropMe.transform);
 
             actionDragFinished.RaiseEvent(true);
+        }
+        else
+        {
+            transform.SetParent(parentBeforeDrag);
+
+            actionDragFinished.RaiseEvent(false);
         }
     }
 

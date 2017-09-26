@@ -47,14 +47,14 @@ public class FindWindow : MonoBehaviour, IPointerClickHandler
             ScreenBlock.Instance.EnableBlock(true);
             ScreenBlock.Instance.transform.SetParent(transform.parent);
             ScreenBlock.Instance.transform.SetAsFirstSibling();
+
+            MainController.InventorySystem.ShowPanel(show, true);
         }
         else
         {
             ScreenBlock.Instance.EnableBlock(false);
             ScreenBlock.Instance.RestoreParent();
         }
-
-        MainController.InventorySystem.ShowPanel(show, true);
 
         MainController.Instance.IsPopupWindowShowing = show;
     }

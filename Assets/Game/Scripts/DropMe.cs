@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class DropMe : MonoBehaviour
 {
+    public ItemType allowDropType;
+
     // Use this for initialization
     void Start()
     {
@@ -14,5 +16,17 @@ public class DropMe : MonoBehaviour
     void Update()
     {
 
+    }
+
+    public bool AllowDropped(DragMe dragMe)
+    {
+        InventoryItem item = dragMe.GetComponent<InventoryItem>();
+        if(item != null)
+        {
+            if (item.ItemType == allowDropType)
+                return true;
+        }
+
+        return false;
     }
 }
