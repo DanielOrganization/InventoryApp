@@ -6,6 +6,9 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using DG.Tweening;
 
+/// <summary>
+/// Find Inventory Window.
+/// </summary>
 public class FindWindow : MonoBehaviour, IPointerClickHandler
 {
     [SerializeField]
@@ -28,6 +31,11 @@ public class FindWindow : MonoBehaviour, IPointerClickHandler
         ShowWindow(false, true);
     }
 
+    /// <summary>
+    /// play the window animation when show or hide, Enable the screen block when show and disable when hide.
+    /// </summary>
+    /// <param name="show"></param>
+    /// <param name="animate"></param>
     public void ShowWindow(bool show, bool animate)
     {
         gameObject.SetActive(true);
@@ -59,6 +67,10 @@ public class FindWindow : MonoBehaviour, IPointerClickHandler
         MainController.Instance.IsPopupWindowShowing = show;
     }
 
+    /// <summary>
+    /// Hide FindWindow when clicked
+    /// </summary>
+    /// <param name="eventData"></param>
     public void OnPointerClick(PointerEventData eventData)
     {
         ShowWindow(false, true);

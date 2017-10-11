@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
+/// <summary>
+/// Define scene data.
+/// </summary>
 [System.Serializable]
 public class GameSceneData
 {
@@ -27,6 +30,9 @@ public enum GameButtonId
     GotoScene3,
 }
 
+/// <summary>
+/// Enum all the inventory types.
+/// </summary>
 public enum ItemType
 {
     N00_Unkown,

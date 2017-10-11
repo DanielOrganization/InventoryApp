@@ -4,6 +4,9 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
+/// <summary>
+/// Drag function
+/// </summary>
 public class DragMe : MonoBehaviour
 {
     private bool m_Dragging = false;
@@ -50,6 +53,10 @@ public class DragMe : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Stop Drag when the screen block is clicked in dragging mode.
+    /// </summary>
+    /// <param name="eventData"></param>
     private void OnScreenBlockClicked(PointerEventData eventData)
     {
         StopDrag();
@@ -81,6 +88,9 @@ public class DragMe : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Enable Screen Block when the drag started.
+    /// </summary>
     private void StartDrag()
     {
         m_Dragging = true;
@@ -92,6 +102,9 @@ public class DragMe : MonoBehaviour
         ScreenBlock.Instance.actionBlockClicked += OnScreenBlockClicked;
     }
 
+    /// <summary>
+    /// Disable Screen Block when the drag finished.
+    /// </summary>
     private void StopDrag()
     {
         m_Dragging = false;

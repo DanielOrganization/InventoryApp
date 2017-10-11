@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Drop Area Controller: detect whether the area is allowed to be placed.
+/// </summary>
 public class DropMe : MonoBehaviour
 {
     public ItemType allowDropType;

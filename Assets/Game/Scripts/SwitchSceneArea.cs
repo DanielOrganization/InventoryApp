@@ -4,6 +4,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
+/// <summary>
+/// The area where can switch scene, the cursor will be changed when the mouse enter or exit the area.
+/// </summary>
 public class SwitchSceneArea : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 {
     public enum Direction

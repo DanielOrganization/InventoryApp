@@ -5,6 +5,9 @@ using DG.Tweening;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
+/// <summary>
+/// The Inventory Panel: manager all inventorys.
+/// </summary>
 public class InventorySystem : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     [SerializeField]

@@ -25,6 +25,10 @@ public class GameScene : MonoBehaviour
 
     }
     
+    /// <summary>
+    /// switch game scene
+    /// </summary>
+    /// <param name="show"></param>
     public void ShowSceneObject(bool show)
     {
         if(show)

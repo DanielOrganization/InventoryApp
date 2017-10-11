@@ -4,6 +4,9 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
+/// <summary>
+/// Prevent users from clicking the button behind the window
+/// </summary>
 public class ScreenBlock : Singleton<ScreenBlock>, IPointerClickHandler
 {
     public System.Action<PointerEventData> actionBlockClicked;
@@ -25,6 +28,10 @@ public class ScreenBlock : Singleton<ScreenBlock>, IPointerClickHandler
 
     }
 
+    /// <summary>
+    /// Enable or disable the block
+    /// </summary>
+    /// <param name="enable"></param>
     public void EnableBlock(bool enable)
     {
         CanvasGroup canvasGroup = GetComponent<CanvasGroup>();

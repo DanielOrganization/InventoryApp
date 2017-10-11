@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+/// <summary>
+/// Inventory item: it can be clicked, dragged and dropped.
+/// </summary>
 public class InventoryItem : MonoBehaviour
 {
     [SerializeField]

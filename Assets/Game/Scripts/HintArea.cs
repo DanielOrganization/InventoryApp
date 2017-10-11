@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 
+/// <summary>
+/// Hint area object, it will destory automatically.
+/// </summary>
 public class HintArea : MonoBehaviour
 {
     // Use this for initialization
