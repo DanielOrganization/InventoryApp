@@ -5,7 +5,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 /// <summary>
-/// Drag function
+/// Drag item function
 /// </summary>
 public class DragMe : MonoBehaviour
 {
@@ -34,6 +34,7 @@ public class DragMe : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // Convert the mouse position to the local position of dragging parent.
         if(m_Dragging)
         {
             Vector3 pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -76,12 +77,14 @@ public class DragMe : MonoBehaviour
 
         if(dropMe != null && dropMe.AllowDropped(this))
         {
+            // Allow to be dropped: place the item to the new parent
             transform.SetParent(dropMe.transform);
 
             actionDragFinished.RaiseEvent(true);
         }
         else
         {
+            // Don't allow to be dropped: place the item to the parent before
             transform.SetParent(parentBeforeDrag);
 
             actionDragFinished.RaiseEvent(false);
